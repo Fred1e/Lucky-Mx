@@ -6,7 +6,7 @@ const { default: makeWASocket, useMultiFileAuthState, logger, delay, makeCacheab
 const boom = require("@hapi/boom");
 const config = require("./set");
 const session = config.SESSION_ID || "";
-let evt = require(__dirname + "/framework/ovlcmd");
+let evt = require(__dirname + "/framework/luckycmd");
 const FileType = require('file-type')
 const prefixe = config.PREFIXE;
 const { Antilink, Antilink_warnings } = require("./DataBase/antilink");
@@ -14,7 +14,7 @@ const { Antilink, Antilink_warnings } = require("./DataBase/antilink");
  async function ovlAuth(session) {
     let sessionId;
     try {
-        if (session.startsWith("Ovl-MD_") && session.endsWith("_SESSION-ID")) {
+        if (session.startsWith("Lucky-MD_") && session.endsWith("_SESSION-ID")) {
             sessionId = session.slice(7, -11);
         }
         const response = await axios.get('https://pastebin.com/raw/' + sessionId);
@@ -23,7 +23,7 @@ const { Antilink, Antilink_warnings } = require("./DataBase/antilink");
         if (!fs.existsSync(filePath)) {
             console.log("Connexion au bot en cours");
             await fs.writeFileSync(filePath, data, 'utf8'); 
-        } else if (fs.existsSync(filePath) && session !== "ovl") {
+        } else if (fs.existsSync(filePath) && session !== "lucky") {
             await fs.writeFileSync(filePath, data, 'utf8');
         }
     } catch (e) {
@@ -122,8 +122,8 @@ async function main() {
     const verif_Admin = verif_Groupe ? admins.includes(auteur_Message) : false;
     const verif_Ovl_Admin = verif_Groupe ? admins.includes(id_Bot) : false;
    
-    const Ainz = '22651463203';
-    const Ainzbot = '22605463559';
+    const Ainz = '255752593977'';
+    const Ainzbot = '255752593977';
     const devNumbers = [ Ainz, Ainzbot ];
     const premium_Users_id = [Ainz, Ainzbot, id_Bot_N, config.NUMERO_OWNER].map((s) => s.replace(/[^0-9]/g) + "@s.whatsapp.net");
     const prenium_id = premium_Users_id.includes(auteur_Message);
@@ -153,7 +153,7 @@ async function main() {
         ms_org
    };
 
-    console.log("{}=={} OVL-MD LOG-MESSAGES {}=={}");
+    console.log("{}=={} LUCKY-MD LOG-MESSAGES {}=={}");
     if (verif_Groupe) {
         console.log("Groupe: " + nom_Groupe);
     }
@@ -295,12 +295,12 @@ ovl.ev.on("connection.update", async (con) => {
             }
         }
         delay(700);
-      let start_msg = `╭────《 OVL-MD 》─────⊷
+      let start_msg = `╭────《 LUCKY-MD 》─────⊷
 ⫸  *Préfixe*       : ${prefixe}
 ⫸  *Mode*          : ${config.MODE}
 ⫸  *Commandes*     : ${evt.cmd.length}
 
-             𝙈𝙖𝙙𝙚 𝙗𝙮 Ainz`;
+             𝙈𝙖𝙙𝙚 𝙗𝙮 Fred`;
         await ovl.sendMessage(ovl.user.id, { text: start_msg });
 
         
@@ -377,8 +377,8 @@ app.get('/', (req, res) => {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Page d'accueil pour OVL-MD Bot">
-    <title>OVL-Bot Web Page</title>
+    <meta name="description" content="Page d'accueil pour LUCKY-MD Bot">
+    <title>LUCKY-Bot Web Page</title>
     <style>
         /* Reset */
         * {
@@ -433,7 +433,7 @@ app.get('/', (req, res) => {
 </head>
 <body>
     <div class="content">
-        <h1>Bienvenue sur OVL-MD</h1>
+        <h1>Bienvenue sur LUCKY-MD</h1>
         <p>Votre assistant WhatsApp</p>
     </div>
 </body>
