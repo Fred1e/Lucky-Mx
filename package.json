@@ -1,15 +1,15 @@
 {
-  "name": "OVL-Md",
+  "name": "Lucky-Md",
   "version": "1.0.0",
-  "description": "Bot WhatsApp devellopé par Ainz",
+  "description": "Bot WhatsApp devellopé par Fredi",
   "main": "index.js",
   "scripts": {
   "test": "echo \"Error: no test specified\" && exit 1",
   "start": "node index.js",
-  "Ovl": "pm2 start index.js --attach --name ovl"
+  "Ovl": "pm2 start index.js --attach --name lucky"
   },
-  "keywords": ["Ainz", "Ovl-Md", "Bailey"],
-  "author": "Ainz",
+  "keywords": ["Fredi", "Lucky-Md", "Bailey"],
+  "author": "Fredi",
   "license": "MIT",
 "dependencies": {
     "@whiskeysockets/baileys": "github:Nignanfatao/Wa-Baileys",
