@@ -1,23 +1,23 @@
-const { ovlcmd } = require("../framework/ovlcmd");
+const { luckycmd } = require("../framework/luckycmd");
 
-ovlcmd(
+luckycmd(
     {
         nom_cmd: "vv",
         classe: "Owner",
         react: "👀",
-        desc: "Affiche un message envoyé en vue unique",
+        desc: "Displays a message sent in single view",
     },
-    async (_ms_org, ovl, _cmd_options) => {
+    async (_ms_org, lucky, _cmd_options) => {
         const { ms, msg_Repondu, repondre } = _cmd_options;
 
         if (!msg_Repondu) {
-            return repondre("Veuillez mentionner un message en vue unique.");
+            return repondre("Please mention a single view message.");
         }
 
         let _vue_Unique_Message = msg_Repondu.viewOnceMessage ?? msg_Repondu.viewOnceMessageV2 ?? msg_Repondu.viewOnceMessageV2Extension;
 
         if (!_vue_Unique_Message) {
-            return repondre("Le message sélectionné n'est pas en mode vue unique.");
+            return repondre("The selected message is not in single view mode.");
         }
 
         try {
@@ -25,22 +25,22 @@ ovlcmd(
             let options = { quoted: ms };
 
             if (_vue_Unique_Message.message.imageMessage) {
-                _media = await ovl.dl_save_media_ms(_vue_Unique_Message.message.imageMessage);
-                await ovl.sendMessage(_ms_org, { image: { url: _media }, caption: _vue_Unique_Message.message.imageMessage.caption }, options);
+                _media = await lucky.dl_save_media_ms(_vue_Unique_Message.message.imageMessage);
+                await lucky.sendMessage(_ms_org, { image: { url: _media }, caption: _vue_Unique_Message.message.imageMessage.caption }, options);
 
             } else if (_vue_Unique_Message.message.videoMessage) {
-                _media = await ovl.dl_save_media_ms(_vue_Unique_Message.message.videoMessage);
-                await ovl.sendMessage(_ms_org, { video: { url: _media }, caption: _vue_Unique_Message.message.videoMessage.caption }, options);
+                _media = await lucky.dl_save_media_ms(_vue_Unique_Message.message.videoMessage);
+                await lucky.sendMessage(_ms_org, { video: { url: _media }, caption: _vue_Unique_Message.message.videoMessage.caption }, options);
 
             } else if (_vue_Unique_Message.message.audioMessage) {
-                _media = await ovl.dl_save_media_ms(_vue_Unique_Message.message.audioMessage);
-                await ovl.sendMessage(_ms_org, { audio: { url: _media }, mimetype: "audio/mp4", ptt: false }, options);
+                _media = await lucky.dl_save_media_ms(_vue_Unique_Message.message.audioMessage);
+                await lucky.sendMessage(_ms_org, { audio: { url: _media }, mimetype: "audio/mp4", ptt: false }, options);
 
             } else {
-                return repondre("Ce type de message n'est pas pris en charge");
+                return repondre("Ce Message type is not supported");
             }
         } catch (_error) {
-            console.error("Erreur lors de l'envoi du message en vue unique :", _error.message || _error);
+            console.error("Error sending message in single view :", _error.message || _error);
         }
     }
 );
