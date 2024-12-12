@@ -1,44 +1,44 @@
 const { exec } = require("child_process");
-const { ovlcmd } = require("../framework/ovlcmd");
+const { luckycmd } = require("../framework/luckycmd");
 
-ovlcmd(
+luckycmd(
   {
     nom_cmd: "exec",
     classe: "Owner",
     react: "⚙️",
-    desc: "Exécute une commande shell sur le serveur"
+    desc: "Executes a shell command on the server"
   },
-  async (ms_org, ovl, cmd_options) => {
+  async (ms_org, lucky, cmd_options) => {
     const { arg, prenium_id } = cmd_options;
 
     if (!prenium_id) {
-      return ovl.sendMessage(ms_org, { text: "Vous n'avez pas l'autorisation d'exécuter des commandes." });
+      return lucky.sendMessage(ms_org, { text: "You don't have permission to execute commands." });
     }
 
     if (!arg[0]) {
-      return ovl.sendMessage(ms_org, { text: "Veuillez fournir une commande shell à exécuter." });
+      return lucky.sendMessage(ms_org, { text: "Please provide a shell command to run." });
     }
 
     exec(arg.join(" "), (err, stdout, stderr) => {
       if (err) {
-        return ovl.sendMessage(ms_org, { text: `Erreur d'exécution: ${err.message}` });
+        return lucky.sendMessage(ms_org, { text: `Runtime error: ${err.message}` });
       }
       if (stderr) {
-        return ovl.sendMessage(ms_org, { text: `Erreur: ${stderr}` });
+        return lucky.sendMessage(ms_org, { text: `Error: ${stderr}` });
       }
-      ovl.sendMessage(ms_org, { text: `Resultat: \n${stdout}` });
+      lucky.sendMessage(ms_org, { text: `Result: \n${stdout}` });
     });
   }
 );
 
-ovlcmd(
+luckycmd(
   {
     nom_cmd: "eval",
     classe: "Owner",
     react: "📝",
-    desc: "Exécute du code JavaScript sur le serveur"
+    desc: "Executes JavaScript code on the server"
   },
-  async (ms_org, ovl, cmd_options) => {
+  async (ms_org, lucky, cmd_options) => {
     const { arg, prenium_id } = cmd_options;
 
     if (!prenium_id) {
@@ -46,7 +46,7 @@ ovlcmd(
     }
 
     if (!arg[0]) {
-      return ovl.sendMessage(ms_org, { text: "Veuillez fournir du code JavaScript à exécuter." });
+      return lucky.sendMessage(ms_org, { text: "Please provide JavaScript code to run." });
     }
 
     try {
@@ -54,9 +54,9 @@ ovlcmd(
       if (typeof result === "object") {
         result = JSON.stringify(result);
       }
-      ovl.sendMessage(ms_org, { text: `Résultat: \n${result}` });
+      lucky.sendMessage(ms_org, { text: `Result: \n${result}` });
     } catch (err) {
-      return ovl.sendMessage(ms_org, { text: `Erreur lors de l'exécution du code JavaScript: ${err.message}` });
+      return lucky.sendMessage(ms_org, { text: `Error executing JavaScript code: ${err.message}` });
     }
   }
 );
