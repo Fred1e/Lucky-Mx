@@ -1,15 +1,15 @@
-const { ovlcmd } = require("../framework/ovlcmd");
+const { luckycmd } = require("../framework/luckycmd");
 const { Sticker, StickerTypes } = require('wa-sticker-formatter');
 const { Antilink } = require("../DataBase/antilink");
 
-ovlcmd(
+luckycmd(
     {
         nom_cmd: "tagall",
         classe: "Groupe",
         react: "💬",
-        desc: "Commande pour taguer tous les membres d'un groupe"
+        desc: "Command to tag all members of a group"
     },
-    async (dest, ovl, cmd_options) => {
+    async (dest, lucky, cmd_options) => {
         try {
             const { ms, repondre, arg, verif_Groupe, infos_Groupe, nom_Auteur_Message, verif_Admin } = cmd_options;
 
@@ -32,60 +32,60 @@ ovlcmd(
             if (verif_Admin) {
                 await ovl.sendMessage(dest, { text: tagMessage, mentions: membresGroupe.map(m => m.id) }, { quoted: ms });
             } else {
-                repondre('Seuls les administrateurs peuvent utiliser cette commande');
+                repondre('Only administrators can use this command');
             }
         } catch (error) {
-            console.error("Erreur lors de l'envoi du message avec tagall :", error);
+            console.error("Error sending message with tagall :", error);
         }
     });
 
-ovlcmd(
+luckycmd(
     {
         nom_cmd: "tag",
         classe: "Groupe",
         react: "💬",
-        desc: "partager un message à tous les membres d'un groupe"
+        desc: "Share a message to everyone in a group"
 
     },
-    async (dest, ovl, cmd_options) => {
+    async (dest, lucky, cmd_options) => {
         const { repondre, msg_Repondu, verif_Groupe, arg, verif_Admin } = cmd_options;
 
         if (!verif_Groupe) {
-            repondre("Cette commande ne fonctionne que dans les groupes");
+            repondre("This command only works in groups");
             return;
         }
 
         if (verif_Admin) {
-            let metadata_groupe = await ovl.groupMetadata(dest);
+            let metadata_groupe = await lucky.groupMetadata(dest);
             let membres_Groupe = metadata_groupe.participants.map(participant => participant.id);
             let contenu_msg;
 
             if (msg_Repondu) {
                 if (msg_Repondu.imageMessage) {
-                    let media_image = await ovl.dl_save_media_ms(msg_Repondu.imageMessage);
+                    let media_image = await lucky.dl_save_media_ms(msg_Repondu.imageMessage);
                     contenu_msg = {
                         image: { url: media_image },
                         caption: msg_Repondu.imageMessage.caption,
                         mentions: membres_Groupe
                     };
                 } else if (msg_Repondu.videoMessage) {
-                    let media_video = await ovl.dl_save_media_ms(msg_Repondu.videoMessage);
+                    let media_video = await lucky.dl_save_media_ms(msg_Repondu.videoMessage);
                     contenu_msg = {
                         video: { url: media_video },
                         caption: msg_Repondu.videoMessage.caption,
                         mentions: membres_Groupe
                     };
                 } else if (msg_Repondu.audioMessage) {
-                    let media_audio = await ovl.dl_save_media_ms(msg_Repondu.audioMessage);
+                    let media_audio = await lucky.dl_save_media_ms(msg_Repondu.audioMessage);
                     contenu_msg = {
                         audio: { url: media_audio },
                         mimetype: 'audio/mp4',
                         mentions: membres_Groupe
                     };
                 } else if (msg_Repondu.stickerMessage) {
-                    let media_sticker = await ovl.dl_save_media_ms(msg_Repondu.stickerMessage);
+                    let media_sticker = await lucky.dl_save_media_ms(msg_Repondu.stickerMessage);
                     let sticker_msg = new Sticker(media_sticker, {
-                        pack: 'OVL-MD Hidtag',
+                        pack: 'LUCKY-MD Hidtag',
                         type: StickerTypes.CROPPED,
                         categories: ["🎊", "🎈"],
                         id: "tag_sticker",
@@ -101,41 +101,41 @@ ovlcmd(
                     };
                 }
 
-                ovl.sendMessage(dest, contenu_msg);
+                lucky.sendMessage(dest, contenu_msg);
             } else {
                 if (!arg || !arg[0]) {
-                    repondre("Veuillez inclure ou mentionner un message à partager.");
+                    repondre("Please include or mention a message to share.");
                     return;
                 }
 
-                ovl.sendMessage(dest, {
+                lucky.sendMessage(dest, {
                     text: arg.join(' '),
                     mentions: membres_Groupe
                 });
             }
         } else {
-            repondre("Cette commande est réservée aux administrateurs du groupe");
+            repondre("This command is reserved for group administrators");
         }
     }
 );
 
-ovlcmd(
+luckycmd(
   {
     nom_cmd: "antilink",
     classe: "Groupe",
     react: "🔗",
-    desc: "Active ou configure l'antilink pour les groupes",
+    desc: "Enables or configures antilink for groups",
   },
-  async (jid, ovl, cmd_options) => {
+  async (jid, lucky, cmd_options) => {
       const { ms, repondre, arg, verif_Groupe, verif_Admin } = cmd_options;
     try {
       
       if (!verif_Groupe) {
-        return repondre("Cette commande ne fonctionne que dans les groupes");
+        return repondre("This Command only works in groups");
       }
 
       if (!verif_Admin) {
-        return repondre("Seuls les administrateurs peuvent utiliser cette commande");
+        return repondre("Only administrators can use this command");
       }
 
       const sousCommande = arg[0]?.toLowerCase();
@@ -154,29 +154,29 @@ ovlcmd(
         }
         settings.mode = newMode;
         await settings.save();
-        return repondre(`L'Antilink ${sousCommande === 'on' ? 'activé' : 'désactivé'} avec succès !`);
+        return repondre(`L'Antilink ${sousCommande === 'on' ? 'activated' : 'Disabled'} successfully !`);
       }
 
       if (validTypes.includes(sousCommande)) {
         if (settings.mode !== 'oui') {
-          return repondre("Veuillez activer l'antilink d'abord en utilisant `antilink on`");
+          return repondre("Please enable the antilink first using 'antilink on`");
         }
         if (settings.type === sousCommande) {
-          return repondre(`L'action antilink est déjà définie sur ${sousCommande}`);
+          return repondre(`The antilink action is already set to ${sousCommande}`);
         }
         settings.type = sousCommande;
         await settings.save();
-        return repondre(`L'Action de l'antilink définie sur ${sousCommande} avec succès !`);
+        return repondre(`The Antilink Action set to ${sousCommande} successfully !`);
       }
 
       return repondre(
-        "Utilisation :\n" +
-        "`antilink on/off` - Activer ou désactiver l'antilink\n" +
-        "`antilink supp/warn/kick` - Configurer l'action antilink"
+        "Usage:\n" +
+        "'antilink on/off' - Enable or disable antilink\n" +
+        "`antilink supp/warn/kick' - Configure the antilink action"
       );
     } catch (error) {
-      console.error("Erreur lors de la configuration d'antilink :", error);
-      repondre("Une erreur s'est produite lors de l'exécution de la commande.");
+      console.error("Error configuring antilink :", error);
+      repondre("An error occurred while running the command.");
     }
   }
 );
