@@ -1,20 +1,20 @@
-const { ovlcmd } = require("../framework/ovlcmd");
+const { luckycmd } = require("../framework/luckycmd");
 const axios = require("axios");
 const ytsr = require('@distube/ytsr');
 
-ovlcmd(
+luckycmd(
     {
         nom_cmd: "song",
-        classe: "Téléchargement",
+        classe: "Download",
         react: "🎵",
-        desc: "Télécharge une chanson depuis YouTube avec un terme de recherche ou un lien YouTube",
+        desc: "Downloads a song from YouTube with a search term or YouTube link",
         alias: ["play"],
     },
-    async (ms_org, ovl, cmd_options) => {
+    async (ms_org, lucky, cmd_options) => {
         const { repondre, arg, ms } = cmd_options;
 
         if (!arg.length) {
-            return await ovl.sendMessage(ms_org, { text: "Veuillez spécifier un titre de chanson ou un lien YouTube." });
+            return await lucky.sendMessage(ms_org, { text: "Please specify a song title or YouTube link." });
         }
 
         const query = arg.join(" ");
@@ -28,7 +28,7 @@ ovlcmd(
             } else {
                 const searchResults = await ytsr(query, { limit: 1 });
                 if (searchResults.items.length === 0) {
-                    return await ovl.sendMessage(ms_org, { text: "Aucun résultat trouvé pour cette recherche." });
+                    return await lucky.sendMessage(ms_org, { text: "No results found for this search." });
                 }
                 const song = searchResults.items[0];
                 videoInfo = {
@@ -40,45 +40,45 @@ ovlcmd(
                 };
             
 
-            const caption = `╭─── 〔 OVL-MD SONG 〕 ──⬣
+            const caption = `╭─── 〔 LUCKY-MD SONG 〕 ──⬣
 ⬡ Titre: ${videoInfo.title}
 ⬡ URL: ${videoInfo.url}
 ⬡ Vues: ${videoInfo.views}
 ⬡ Durée: ${videoInfo.duration}
 ╰───────────────────⬣`;
 
-            await ovl.sendMessage(ms_org, { image: { url: videoInfo.thumbnail }, caption: caption });
+            await lucky.sendMessage(ms_org, { image: { url: videoInfo.thumbnail }, caption: caption });
             }
-            // Téléchargement de l'audio
+            // Downloading Audio
             const audioResponse = await axios.get(`https://ironman.koyeb.app/ironman/dl/yta?url=${videoInfo.url}`, {
                 responseType: 'arraybuffer'
             });
 
-            await ovl.sendMessage(ms_org, {
+            await lucky.sendMessage(ms_org, {
                 audio: Buffer.from(audioResponse.data),
                 mimetype: 'audio/mp4',
                 fileName: `${videoInfo.title}.mp3`
             }, { quoted: ms });
 
         } catch (error) {
-            console.error("Erreur lors du téléchargement de la chanson :", error.message || error);
-            await ovl.sendMessage(ms_org, { text: "Erreur lors du téléchargement de la chanson." });
+            console.error("Error downloading song :", error.message || error);
+            await lucky.sendMessage(ms_org, { text: "Error downloading song." });
         }
     }
 );
 
-ovlcmd(
+luvky(
     {
         nom_cmd: "video",
-        classe: "Téléchargement",
+        classe: "Download",
         react: "🎥",
-        desc: "Télécharge une vidéo depuis YouTube avec un terme de recherche ou un lien YouTube"
+        desc: "Downloads a video from YouTube with a YouTube search term or link"
     },
-    async (ms_org, ovl, cmd_options) => {
+    async (ms_org, lucky, cmd_options) => {
         const { repondre, arg, ms } = cmd_options;
 
         if (!arg.length) {
-            return await ovl.sendMessage(ms_org, { text: "Veuillez spécifier un titre de vidéo ou un lien YouTube." });
+            return await lucky.sendMessage(ms_org, { text: "Please specify a video title or YouTube link." });
         }
 
         const query = arg.join(" ");
@@ -92,7 +92,7 @@ ovlcmd(
             } else {
                 const searchResults = await ytsr(query, { limit: 1 });
                 if (searchResults.items.length === 0) {
-                    return await ovl.sendMessage(ms_org, { text: "Aucun résultat trouvé pour cette recherche." });
+                    return await lucky.sendMessage(ms_org, { text: "No results found for this search." });
                 }
                 const video = searchResults.items[0];
                 videoInfo = {
@@ -104,29 +104,29 @@ ovlcmd(
                 };
             
 
-            const caption = `╭─── 〔 OVL-MD VIDEO 〕 ──⬣
+            const caption = `╭─── 〔 LUCKY-MD VIDEO 〕 ──⬣
 ⬡ Titre: ${videoInfo.title}
 ⬡ URL: ${videoInfo.url}
 ⬡ Vues: ${videoInfo.views}
 ⬡ Durée: ${videoInfo.duration}
 ╰───────────────────⬣`;
 
-            await ovl.sendMessage(ms_org, { image: { url: videoInfo.thumbnail }, caption: caption });
+            await lucky.sendMessage(ms_org, { image: { url: videoInfo.thumbnail }, caption: caption });
             };
-            // Téléchargement de la vidéo
+            // Downloading the video
             const videoResponse = await axios.get(`https://ironman.koyeb.app/ironman/dl/ytv?url=${videoInfo.url}`, {
                 responseType: 'arraybuffer'
             });
 
-            await ovl.sendMessage(ms_org, {
+            await lucky.sendMessage(ms_org, {
                 video: Buffer.from(videoResponse.data),
                 mimetype: 'video/mp4',
                 fileName: `${videoInfo.title}.mp4`
             }, { quoted: ms });
 
         } catch (error) {
-            console.error("Erreur lors du téléchargement de la vidéo :", error.message || error);
-            await ovl.sendMessage(ms_org, { text: "Erreur lors du téléchargement de la vidéo." });
+            console.error("Error downloading video :", error.message || error);
+            await lucky.sendMessage(ms_org, { text: "Error downloading video." });
         }
     }
 );
