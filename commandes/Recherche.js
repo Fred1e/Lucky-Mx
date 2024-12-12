@@ -1,39 +1,39 @@
-const { ovlcmd, cmd } = require("../framework/ovlcmd");
+const { luckycmd, cmd } = require("../framework/luckycmd");
 const gis = require("g-i-s");
 
-ovlcmd(
+luckycmd(
     {
         nom_cmd: "img",
         classe: "search",
         react: "🔍",
-        desc: "Recherche d'images"
+        desc: "Image search"
     },
-    async (ms_org, ovl, cmd_options) => {
+    async (ms_org, lucky, cmd_options) => {
       const { arg } = cmd_options;
         const searchTerm = arg.join(" ");
         if (!searchTerm) {
-            return ovl.sendMessage(ms_org, { text: "Veuillez fournir un terme de recherche, par exemple : img ovl-Md" });
+            return lucky.sendMessage(ms_org, { text: "Please provide a search term, for example: img Luvky-Md" });
         }
 
         gis(searchTerm, async (error, results) => {
             if (error) {
-                console.error("Erreur lors de la recherche d'images:", error);
-                return ovl.sendMessage(ms_org, { text: "Erreur lors de la recherche d'images." });
+                console.error("Error searching for images:", error);
+                return lucky.sendMessage(ms_org, { text: "Error searching for images." });
             }
 
             const images = results.slice(0, 5);
             if (images.length === 0) {
-                return ovl.sendMessage(ms_org, { text: "Aucune image trouvée pour ce terme de recherche." });
+                return lucky.sendMessage(ms_org, { text: "No images found for this search term." });
             }
 
             for (const image of images) {
                 try {
-                    await ovl.sendMessage(ms_org, {
+                    await lucky.sendMessage(ms_org, {
                         image: { url: image.url },
-                        caption: `\`\`\`Powered By OVL-MD\`\`\``
+                        caption: `\`\`\`Powered By LUVKY-MD\`\`\``
                     });
                 } catch (err) {
-                    console.error("Erreur lors de l'envoi de l'image:", err);
+                    console.error("Error sending image:", err);
                 }
             }
         });
