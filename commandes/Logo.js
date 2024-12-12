@@ -1,8 +1,8 @@
-const { ovlcmd } = require("../framework/ovlcmd");
+const { luckycmd } = require("../framework/luckycmd");
 const maker = require('mumaker');
 
 function addTextproCommand(nom_cmd, text_pro_url, desc) {
-    ovlcmd(
+    luckycmd(
         {
             nom_cmd: nom_cmd,
             classe: "Logo",
@@ -13,11 +13,11 @@ function addTextproCommand(nom_cmd, text_pro_url, desc) {
             const { arg, ms } = cmd_options;
             const query = arg.join(' ');
             if (!query) { 
-                return await ovl.sendMessage(ms_org, { text: "Vous devez fournir un texte" }, { quoted: ms } );
+                return await lucky.sendMessage(ms_org, { text: "You must provide a text" }, { quoted: ms } );
             }
             try {
                 let logo_url = await maker.textpro(text_pro_url, query);
-                await ovl.sendMessage(ms_org, { image: { url: logo_url.image }, caption: "\`\`\`Powered By OVL-MD\`\`\`" }, { quoted: ms });
+                await lucky.sendMessage(ms_org, { image: { url: logo_url.image }, caption: "\`\`\`Powered By LUCKY-MD\`\`\`" }, { quoted: ms });
             } catch (error) {
                 console.error(`Erreur avec la commande ${nom_cmd}:`, error.message || error);
             }
