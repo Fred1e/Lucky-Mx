@@ -1,0 +1,37 @@
+{
+  "name": "OVL-Md",
+  "version": "1.0.0",
+  "description": "Bot WhatsApp devellopé par Ainz",
+  "main": "index.js",
+  "scripts": {
+  "test": "echo \"Error: no test specified\" && exit 1",
+  "start": "node index.js",
+  "Ovl": "pm2 start index.js --attach --name ovl"
+  },
+  "keywords": ["Ainz", "Ovl-Md", "Bailey"],
+  "author": "Ainz",
+  "license": "MIT",
+"dependencies": {
+    "@whiskeysockets/baileys": "github:Nignanfatao/Wa-Baileys",
+    "@hapi/boom": "^10.0.1",
+    "axios": "^1.4.0",
+    "@napi-rs/canvas": "^0.1.62",
+    "@distube/ytsr": "^2.0.4",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "file-type": "16.5.3",
+    "form-data": "^4.0.0",
+    "fs-extra": "^11.1.1",
+    "g-i-s": "^2.1.7",
+    "mumaker": "^2.0.0",
+    "node-catbox": "^3.3.0",
+    "path": "^0.12.7",
+    "pg": "^8.13.1",
+    "pm2": "^5.4.2",
+    "pino": "^8.1.0",
+    "qrcode": "latest",
+    "sequelize": "^6.37.5",
+    "sharp": "^0.32.2",
+    "wa-sticker-formatter": "^4.4.4"
+  }
+}
