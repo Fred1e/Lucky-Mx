@@ -1,57 +1,57 @@
-const { ovlcmd, cmd } = require("../framework/ovlcmd");
+const { luckycmd, cmd } = require("../framework/luckycmd");
 const config = require("../set");
 const prefixe = config.PREFIXE;
-ovlcmd(
+luckycmd(
     {
         nom_cmd: "test",
-        classe: "Outils",
+        classe: "Tools",
         react: "🌟",
-        desc: "Tester la connectivité du bot"
+        desc: "Test bot connectivity"
     },
-    async (ms_org, ovl, cmd_options) => {
+    async (ms_org, lucky, cmd_options) => {
         try {
-            const mess = `\`\`\`🌐 Bienvenue sur *OVL-MD*, votre bot WhatsApp multi-device.🔍 Tapez *${prefixe}menu* pour voir toutes les commandes disponibles.\`\`\`\n> ©2024 OVL-MD By *AINZ*`;
-            const img = 'https://telegra.ph/file/8173c870f9de5570db8c3.jpg';
-            await ovl.sendMessage(ms_org, { 
+            const mess = `\`\`\`🌐 Welcome to *LUCKY-MD*, your multi-device WhatsApp bot. 🔍 Type *${prefix}menu* to see all available commands.\'\'\'\n> ©2024 LUCKY-MD By *FREDI*`;
+            const img = 'https://files.catbox.moe/7irwqn.jpeg';
+            await lucky.sendMessage(ms_org, { 
                 image: { url: img }, 
                 caption: mess 
             });
         } catch (error) {
-            console.error("Erreur lors de l'envoi du message de test :", error.message || error);
+            console.error("Error When sending the test message :", error.message || error);
         }
     }
 );
 
 
-ovlcmd(
+luckycmd(
     {
         nom_cmd: "description",
-        classe: "Outils",
-        desc: "Affiche la liste des commandes avec leurs descriptions",
+        classe: "Tools",
+        desc: "Displays the list of commands with their descriptions",
         alias: ["desc", "help"],
     },
-    async (ms_org, ovl, cmd_options) => {
+    async (ms_org, lucky, cmd_options) => {
         try {
             const commandes = cmd; 
-            let descriptionMsg = "📜 *Liste des commandes disponibles :*\n\n";
+            let descriptionMsg = "📜 *List of available commands :*\n\n";
             commandes.forEach(cmd => {
                 descriptionMsg += `nom commande: *${cmd.nom_cmd}*\nAlias: [${cmd.alias.join(", ")}]\ndescription: ${cmd.desc}\n\n`;
             }); 
-            await ovl.sendMessage(ms_org, { text: descriptionMsg });
+            await lucky.sendMessage(ms_org, { text: descriptionMsg });
         } catch (error) {
-            console.error("Erreur lors de l'affichage des descriptions :", error.message || error);
+            console.error("Error viewing descriptions :", error.message || error);
         }
     }
 );
 
-ovlcmd(
+luckycmd(
     {
         nom_cmd: "menu",
-        classe: "Outils",
+        classe: "Tools",
         react: "🔅",
-        desc: "affiche le menu du bot",
+        desc: "Displays the bot's menu",
     },
-    async (ms_org, ovl, cmd_options) => {
+    async (ms_org, lucky, cmd_options) => {
         try { 
             const seconds = process.uptime(); 
             var j = Math.floor(seconds / (60 * 60 * 24));
@@ -66,12 +66,12 @@ ovlcmd(
 
             const lien = `${config.MENU}`;
             const commandes = cmd;
-            let menu = `╭───❏ 🄾🅅🄻 🄼🄳 ❏
+            let menu = `╭───❏ LUCKY MD ❏
 │ ✿ Prefixe => ${config.PREFIXE}
 │ ✿ Owner => ${config.NOM_OWNER}
 │ ✿ Commandes => ${commandes.length}
 │ ✿ Uptime => ${uptime.trim()}
-│ ✿ Développeur => AINZ
+│ ✿ Developer=> FREDI
 ╰══════════════⊷\n\n`;
 
             const cmd_classe = {};
@@ -90,10 +90,10 @@ ovlcmd(
                 menu += `╰═══════════════⊷\n\n`;
             }
 
-            menu += "> ©2024 OVL-MD WA-BOT";
-            await ovl.sendMessage(ms_org, { image: { url: lien }, caption: menu });
+            menu += "> ©2024 LUCKY-MD WA-BOT";
+            await lucky.sendMessage(ms_org, { image: { url: lien }, caption: menu });
         } catch (error) {
-            console.error("Erreur lors de la génération du menu :", error);
+            console.error("Error generating menu :", error);
         }
     }
 );
