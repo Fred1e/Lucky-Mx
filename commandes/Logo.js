@@ -9,7 +9,7 @@ function addTextproCommand(nom_cmd, text_pro_url, desc) {
             react: "✨",
             desc: desc
         },
-        async (ms_org, ovl, cmd_options) => {
+        async (ms_org, lucky, cmd_options) => {
             const { arg, ms } = cmd_options;
             const query = arg.join(' ');
             if (!query) { 
